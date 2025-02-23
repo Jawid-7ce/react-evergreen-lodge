@@ -12,6 +12,12 @@ const NavList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  box-shadow: inset 0px 2px 10px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(6px);
+  transition: all 0.3s ease-in-out;
 `;
 
 const StyledNavLink = styled(NavLink)`
@@ -19,30 +25,52 @@ const StyledNavLink = styled(NavLink)`
   &:visited {
     display: flex;
     align-items: center;
-    gap: 1.2rem;
-
+    gap: 1rem;
     color: var(--color-grey-600);
-    font-size: 1.6rem;
+    font-size: 1.2rem;
     font-weight: 500;
-    padding: 1.2rem 2.4rem;
-    transition: all 0.3s;
+    padding: 1rem 2rem; 
+    border-radius: 8px;
+    transition: all 0.3s ease-in-out;
+    background: rgba(255, 255, 255, 0.05);
+    border-left: 3px solid transparent;
+    position: relative;
+    overflow: hidden;
   }
 
-  /* This works because react-router places the active class on the active NavLink */
   &:hover,
   &:active,
   &.active:link,
   &.active:visited {
     color: var(--color-grey-800);
-    background-color: var(--color-grey-50);
-    border-radius: var(--border-radius-sm);
+    background: linear-gradient(135deg, var(--color-grey-100), var(--color-grey-200));
+    border-left: 3px solid var(--color-brand-600);
+    transform: translateX(3px);
+  }
+
+  /* 🔹 Smooth Expanding Hover Effect */
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    background: var(--color-brand-100);
+    transition: width 0.4s ease-in-out; /* Ensures smooth transition */
+    opacity: 0.1;
+  }
+
+  &:hover::before,
+  &:active::before,
+  &.active::before {
+    width: 100%; /* Expands smoothly now */
   }
 
   & svg {
-    width: 2.4rem;
-    height: 2.4rem;
+    width: 2rem;
+    height: 2rem;
     color: var(--color-grey-400);
-    transition: all 0.3s;
+    transition: transform 0.3s ease-in-out;
   }
 
   &:hover svg,
@@ -50,8 +78,10 @@ const StyledNavLink = styled(NavLink)`
   &.active:link svg,
   &.active:visited svg {
     color: var(--color-brand-600);
+    transform: rotate(10deg);
   }
 `;
+
 
 function MainNav() {
   return (
