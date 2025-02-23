@@ -48,7 +48,6 @@ const StyledNavLink = styled(NavLink)`
     transform: translateX(3px);
   }
 
-  /* 🔹 Smooth Expanding Hover Effect */
   &::before {
     content: "";
     position: absolute;
@@ -56,14 +55,14 @@ const StyledNavLink = styled(NavLink)`
     width: 0%;
     height: 100%;
     background: var(--color-brand-100);
-    transition: width 0.4s ease-in-out; /* Ensures smooth transition */
+    transition: width 0.4s ease-in-out;
     opacity: 0.1;
   }
 
   &:hover::before,
   &:active::before,
   &.active::before {
-    width: 100%; /* Expands smoothly now */
+    width: 100%;
   }
 
   & svg {
