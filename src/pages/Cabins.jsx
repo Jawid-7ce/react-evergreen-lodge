@@ -17,7 +17,7 @@ const [showForm, setShowForm] = useState(false);
     </Row>
     <Row type="vertical">
       <CabinTable/>
-      <Button size="medium" variation="primary" onClick={() => setShowForm(show => !show)}>Add new cabin</Button>
+      <Button size="medium" variation="primary" onClick={() => setShowForm(show => !show)}>{showForm ? "Close form" : "Add new cabin"}</Button>
       {showForm && <CreateCabinForm/>}
     </Row>
     </>
