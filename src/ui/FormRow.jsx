@@ -1,14 +1,14 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 const StyledFormRow = styled.div`
   display: grid;
   align-items: center;
-
-  grid-template-columns: ${(props) =>
-    props.orientation === "vertical" ? "1fr" : "24rem 1fr 1.2fr"};
-  gap: ${(props) => (props.orientation === "vertical" ? "0.8rem" : "2.4rem")};
-
+  grid-template-columns: 24rem 1fr 1.2fr;
+  gap: 2.4rem;
   padding: 1.2rem 0;
+  border-radius: 8px;
+  transition: all 0.3s ease-in-out;
+  background: rgba(255, 255, 255, 0.03);
 
   &:first-child {
     padding-top: 0;
@@ -19,23 +19,31 @@ const StyledFormRow = styled.div`
   }
 
   &:not(:last-child) {
-    border-bottom: ${(props) =>
-      props.orientation === "vertical"
-        ? "none"
-        : "1px solid var(--color-grey-100)"};
+    border-bottom: 1px solid var(--color-grey-300);
   }
 
-  /* Special treatment if the row contains buttons, and if it's NOT a vertical row */
-  ${(props) =>
-    props.orientation !== "vertical" &&
-    css`
-      &:has(button) {
-        display: flex;
-        justify-content: flex-end;
-        gap: 1.2rem;
-      }
-    `}
+  &:hover {
+    background: rgba(255, 165, 0, 0.08);
+    box-shadow: inset 0px 0px 8px rgba(255, 165, 0, 0.2);
+    border-left: 4px solid var(--color-primary); /* Subtle left accent */
+  }
+
+  &:focus-within {
+    background: rgba(255, 107, 107, 0.08);
+    box-shadow: 0px 0px 10px rgba(255, 107, 107, 0.3);
+    border-left: 4px solid var(--color-secondary);
+  }
+
+  &:has(button) {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1.2rem;
+    padding-top: 1.6rem;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 8px;
+  }
 `;
+
 
 const Label = styled.label`
   font-weight: 500;
@@ -46,14 +54,12 @@ const Error = styled.span`
   color: var(--color-red-700);
 `;
 
-function FormRow({ label, error, children, orientation }) {
+export default function FormRow({label, error, children}) {
   return (
-    <StyledFormRow orientation={orientation}>
-      {label && <Label htmlFor={children.props.id}>{label}</Label>}
-      {children}
-      {error && <Error>{error}</Error>}
-    </StyledFormRow>
-  );
+    <StyledFormRow>
+        {label && <Label htmlFor={children.props.id}>{label}</Label>}
+        {children}
+        {error && <Error>{error}</Error>}
+      </StyledFormRow>
+  )
 }
-
-export default FormRow;
