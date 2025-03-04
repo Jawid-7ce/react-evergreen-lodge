@@ -7,19 +7,20 @@ export async function getCabins() {
     .order("name", { ascending: true });
 
   if (error) {
-    throw new Error("Error while getting cabin's data");
+    throw new Error(`Error while getting cabin data ${error.message}`);
   }
 
   return data;
 }
 
 export async function createEditCabin(newCabin, id) {
+  console.log(newCabin, id);
+  const hasImagePath = newCabin.image?.startsWith?.(supabaseUrl);
   const imageName = `${Math.random()}-${newCabin.image.name}`.replaceAll(
     "/",
     ""
   );
 
-  const hasImagePath = newCabin.image?.startsWith?.(supabase);
   const imagePath = hasImagePath
     ? newCabin.image
     : `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
@@ -27,10 +28,10 @@ export async function createEditCabin(newCabin, id) {
   let query = supabase.from("cabins");
 
   // Add new Cabin
-  if (!id) query.insert([{ ...newCabin, image: imagePath }]);
+  if (!id) query = query.insert([{ ...newCabin, image: imagePath }]);
 
   // Edit cabin
-  if (id) query.update({ ...newCabin, image: imagePath }).eq("id", id);
+  if (id) query = query.update({ ...newCabin, image: imagePath }).eq("id", id);
 
   const { data, error } = await query.select().single();
 
