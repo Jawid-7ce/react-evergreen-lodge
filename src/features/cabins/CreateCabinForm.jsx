@@ -36,7 +36,7 @@ function CreateCabinForm({ cabinToEdit = {} }) {
       queryClient.invalidateQueries({ queryKey: ["cabins"] });
       reset();
     },
-    onError: (err) => toast.error(err.message),
+    onError: (err) => toast.error("Hello", err.message),
   });
 
   const isWorking = isCreating || isEditing;
