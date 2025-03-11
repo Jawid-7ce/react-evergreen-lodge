@@ -1,13 +1,25 @@
 import supabase from "./supabase";
 
 export async function getSettings() {
-  const { data, error } = await supabase.from("settings").select("*").single();
+  console.log("📡 Fetching settings from Supabase...");
 
-  if (error) {
-    console.error(error);
-    throw new Error("Settings could not be loaded");
+  try {
+    const { data, error } = await supabase
+      .from("settings")
+      .select("*")
+      .single();
+
+    if (error) {
+      console.error("❌ Supabase getSettings error:", error);
+      throw new Error("Settings could not be loaded");
+    }
+
+    console.log("✅ Supabase getSettings data:", data);
+    return data;
+  } catch (err) {
+    console.error("🔥 Unexpected error in getSettings:", err);
+    throw err;
   }
-  return data;
 }
 
 // We expect a newSetting object that looks like {setting: newValue}
